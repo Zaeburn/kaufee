@@ -12,7 +12,7 @@ class Home extends React.Component {
   }
 
   markComplete () {
-    this.props.dispatch(orderComplete(this.props.orderId))
+    this.props.dispatch(orderComplete(this.props.currentOrder.id))
   }
 
   componentDidMount () {
@@ -21,15 +21,24 @@ class Home extends React.Component {
   }
 
   render () {
-    const orders = this.props.orders || []
     return (
       <div className='order-container'>
         <h2>Current Order</h2>
-        <OrderList orders={orders} />
-        <div className="completed">
-          <button onClick={this.markComplete}>Mark as Complete</button>
-        </div>
-        <AddToOrder />
+        {
+          this.props.currentOrder.isCurrentOrderActive ? (
+            <div>
+              <OrderList orders={this.props.currentOrder.items} />
+              <div className="completed">
+                <button onClick={this.markComplete}>Mark as Complete</button>
+              </div>
+              <AddToOrder />
+            </div>
+          ) : (
+            <div className="completed">
+              <button onClick={this.markComplete}>Mark as Complete</button>
+            </div>
+          )
+        }
       </div>
     )
   }
@@ -37,8 +46,8 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    orderId: state.currentOrder.id,
-    orders: state.currentOrder.items
+
+    currentOrder: state.currentOrder
   }
 }
 

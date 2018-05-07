@@ -17,11 +17,11 @@ router.get('/', (req, res) => {
       }
       const currentOrder = {
         id: items[0].orderId,
+        isCurrentOrderActive: true,
         items: items.map(item => ({
           id: item.orderItemId,
           name: item.userName,
-          order: item.orderDetails,
-          isCurrentOrderActive: true
+          order: item.orderDetails
         }))
       }
 
